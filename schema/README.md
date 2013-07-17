@@ -6,10 +6,11 @@ original
 repository](https://github.com/webster/minneapolis-restaurant-health-inspection-data/)
 to make writing interesting queries on the data easier.
 
-For example, what are the top 5 Minneapolis postal codes that had
-restaurants with a critical violation reported during the last six months?
+Example: What are the top 5 Minneapolis postal codes by number of 
+restaurants with a critical violation in the last six months?
 
-```SELECT postal, COUNT(DISTINCT business_id) as n_critical
+~~~
+SELECT postal, COUNT(DISTINCT business_id) as n_critical
 FROM inspection_order
   JOIN business_license USING ( license_number )
   JOIN business USING ( business_id )
@@ -17,7 +18,20 @@ WHERE is_critical = 1
   AND inspected_on > DATE_SUB( CURDATE( ), INTERVAL 6 MONTH )
 GROUP BY postal 
 ORDER BY n_critical DESC
-LIMIT 5;```
+LIMIT 5;
+~~~
+Result:
+~~~
++--------+------------+
+| postal | n_critical |
++--------+------------+
+| 55401  |         80 |
+| 55403  |         59 |
+| 55415  |         37 |
+| 55407  |         14 |
+| 55402  |         11 |
++--------+------------+
+~~~
 
 ## Organization
 There are three files:
@@ -30,7 +44,7 @@ There are three files:
 ## Installation
 ```cat initial_create.sql initial_populate.sql | mysql -uUSER -p DATABASE```
 
-Replace ```USER``` ```DATABASE``` with your own values.
+Replace ```USER``` and ```DATABASE``` with your own values.
 
 Running ```migrate.sql``` is not necessary, it is meant to document how the
 data were transformed.
