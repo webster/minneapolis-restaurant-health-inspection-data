@@ -50,6 +50,7 @@ CREATE TABLE `inspection_order` (
   `is_critical`           bool NOT NULL DEFAULT 0,
   PRIMARY KEY             ( `inspection_order_id` ),
   KEY                     ( `inspection_id` ),
+  KEY                     ( `inspected_on` ),
   FOREIGN KEY             ( `license_number` ) REFERENCES `business_license` ( `license_number` )
                             ON DELETE CASCADE
 ) ENGINE=InnoDB;
